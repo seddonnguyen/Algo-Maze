@@ -37,8 +37,8 @@ namespace maze {
 
 void commandLineErrCheck(int argc) {
 
-	if(argc < 2) {
-		std::cerr << "Usage: solveMaze input_file \n";
+	if(argc < 4) {
+		std::cerr << "Usage: solveMaze input_file start_node end_node\n";
 		exit(1);
 	}
 

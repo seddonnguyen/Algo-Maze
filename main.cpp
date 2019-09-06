@@ -30,27 +30,27 @@ namespace maze {
 	vector<edge> edges;
 	map<int, node> graph;
 	std::vector<int> path;
-	int startNode = 0;
-	int endNode = 92;
+	int startNode = -1;
+	int endNode = -1;
 
 }
 
 void commandLineErrCheck(int argc) {
-	
+
 	if(argc < 2) {
 		std::cerr << "Usage: solveMaze input_file \n";
 		exit(1);
 	}
-	
+
 	return;
-	
+
 }
 
 std::string chop(std::string& s,char a) {
 
 	std::string final;
 	int start = 0, end;
-	
+
 	for(int i = 0; i < s.size(); i++) {
 		if(s[i] == a) {
 			end = i;
@@ -60,7 +60,7 @@ std::string chop(std::string& s,char a) {
 			return s;
 		}
 	}
-	
+
 	final = s.substr(start, end);
 	s = s.substr(end+1, s.size());
 
@@ -69,14 +69,14 @@ std::string chop(std::string& s,char a) {
 }
 
 vector<edge> getEdges(std::string fileName) {
-	
+
 	std::ifstream file;
 	std::vector<edge> edges;
 	edge currentEdge;
 	string line;
 
 	file.open(fileName.c_str());
-	
+
 	if(!file) {
 		std::cerr << "Error: Cannot open " << fileName << std::endl;
 		exit(1);
@@ -97,7 +97,7 @@ vector<edge> getEdges(std::string fileName) {
 	}
 
 	file.close();
-	
+
 	return edges;
 
 }
@@ -156,7 +156,7 @@ edge getNext(int currentNode) {
 		maze::graph[currentNode].status = node::BLACK;
 	}
 
-	return nextEdge; 
+	return nextEdge;
 
 }
 
@@ -173,7 +173,7 @@ edge getNext(int currentNode, int previousNode, string direction) {
 		}
 	}
 
-	return nextEdge; 
+	return nextEdge;
 
 }
 
@@ -202,7 +202,7 @@ void findPath() {
 		// Second node from starting position
 		currentEdge = getNext(currentNode, previousNode, currentEdge.direction);
 		previousNode = currentNode;
-		currentNode = currentEdge.dst;	
+		currentNode = currentEdge.dst;
 
 		// Check if there is a next node in the same direction
 		if(currentNode == -1) {
@@ -212,7 +212,7 @@ void findPath() {
 
 		// Final node
 		currentEdge = getNext(currentNode, previousNode, currentEdge.direction);
-		currentNode = currentEdge.dst;	
+		currentNode = currentEdge.dst;
 
 		// Check if there is a next node in the same direction
 		if(currentNode == -1) {
@@ -250,12 +250,15 @@ void displayPath() {
 int main(int argc, char* argv[]) {
 
 	commandLineErrCheck(argc);
+	maze::startNode = atoi(argv[2]);
+	maze::endNode = atoi(argv[3]);
+
 	maze::edges = getEdges(std::string(argv[1]));
 	createGraph();
 	initialize();
 	findPath();
 	displayPath();
-	
+
 	return 0;
 
 };

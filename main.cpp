@@ -239,7 +239,7 @@ void displayPath() {
 
 	cout << "Path: ";
 	for(int i = 0; i < maze::path.size(); i++) {
-		cout << maze::path[i] << ' ';
+		cout << maze::path[i] << ',' << ' ';
 	}
 	cout << endl;
 
